@@ -12,5 +12,3 @@ export class CreatePokemonInput {
   @IsNotEmpty({ message: 'Type cannot be empty or null' })
   type: string;
 }
-
-

@@ -25,8 +25,10 @@ export class AuthController {
   }
 
   @Post()
-  @ApiCreatedResponse({ description: 'The record has been successfully created.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
+  @ApiCreatedResponse({
+    description: 'The record has been successfully created.',
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   async login(@Body() authInput: AuthInput): Promise<AuthType> {
     return await this.clientProxy.send('auth-login', authInput).toPromise();
   }

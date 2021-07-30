@@ -4,7 +4,12 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import { ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateUserInput } from './dto/create-user-input';
@@ -28,8 +33,10 @@ export class UserController {
   }
 
   @Post()
-  @ApiCreatedResponse({ description: 'The record has been successfully created.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
+  @ApiCreatedResponse({
+    description: 'The record has been successfully created.',
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   async createUser(@Body() createUserInput: CreateUserInput): Promise<User> {
     createUserInput.password = await bcrypt.hash(createUserInput.password, 10);
     return await this.clientProxy
@@ -39,8 +46,8 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
-  @ApiOkResponse({ description: 'The record has been successfully updated.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  @ApiOkResponse({ description: 'The record has been successfully updated.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   async updateUser(
     @Body('_id') _id: string,
     @Body('updateUserInput')
