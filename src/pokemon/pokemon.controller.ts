@@ -13,6 +13,7 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
+import { ApiCreatedResponse, ApiInternalServerErrorResponse, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreatePokemonInput } from './dto/create-pokemon-input';
 import { UpdatePokemonInput } from './dto/update-pokemon-input';
@@ -36,6 +37,8 @@ export class PokemonController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiCreatedResponse({ description: 'The record has been successfully created.'})
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async createPokemon(
     @Body() createPokemonInput: CreatePokemonInput,
   ): Promise<Pokemon> {
@@ -46,17 +49,23 @@ export class PokemonController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOkResponse({ description: 'Ok.'})
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async findAllPokemons(): Promise<Pokemon[]> {
     return await this.clientProxy.send('find-all-pokemons', '').toPromise();
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':pokemonId')
+  @ApiOkResponse({ description: 'Ok.'})
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async findByIdPokemon(@Param('pokemonId') pokemonId: number): Promise<Pokemon | null> {
     return await this.clientProxy.send('find-by-id-pokemon', pokemonId).toPromise();
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: 'The record has been successfully deleted.'})
+  @ApiInternalServerErrorResponse({ description: 'InternalServerError.'})
   @Delete(':pokemonId')
   async deletePokemon(@Param('pokemonId') pokemonId: number): Promise<boolean> {
     const deleted = await this.clientProxy.send('delete-pokemon', pokemonId).toPromise();
@@ -65,6 +74,8 @@ export class PokemonController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
+  @ApiOkResponse({ description: 'The record has been successfully updated.'})
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async updatePokemon(
     @Body('pokemonId') pokemonId: string,
     @Body('updatePokemonInput') updatePokemonInput: UpdatePokemonInput,

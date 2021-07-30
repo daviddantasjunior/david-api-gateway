@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
   IsEmail,
@@ -8,6 +9,7 @@ import {
 } from 'class-validator';
 
 export class CreateUserInput {
+  @ApiProperty({ type: String, description: 'User Password' })
   @IsString()
   @IsNotEmpty({ message: 'Password cannot be empty or null' })
   @Length(8, 20, { message: 'Must contain at least eight characters' })
@@ -17,10 +19,12 @@ export class CreateUserInput {
   })
   password: string;
 
+  @ApiProperty({ type: String, description: 'User Nickname' })
   @IsString()
   @IsNotEmpty({ message: 'Nickname cannot be empty or null' })
   nickname: string;
 
+  @ApiProperty({ type: String, description: 'User Mail' })
   @IsEmail()
   @IsNotEmpty({ message: 'Mail cannot be empty or null' })
   mail: string;

@@ -1,4 +1,4 @@
-import { Optional } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 
 export class UpdateUserInput {
+  @ApiProperty({ type: String, description: 'User Password' })
   @IsOptional()
   @IsString()
   @IsNotEmpty({ message: 'Password cannot be empty or null' })
@@ -19,11 +20,13 @@ export class UpdateUserInput {
   })
   password?: string;
 
+  @ApiProperty({ type: String, description: 'User Nickname' })
   @IsOptional()
   @IsString()
   @IsNotEmpty({ message: 'Nickname cannot be empty or null' })
   nickname?: string;
 
+  @ApiProperty({ type: String, description: 'User Mail' })
   @IsOptional()
   @IsEmail()
   @IsNotEmpty({ message: 'Mail cannot be empty or null' })

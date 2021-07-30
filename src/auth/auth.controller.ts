@@ -4,6 +4,7 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
+import { ApiCreatedResponse, ApiForbiddenResponse } from '@nestjs/swagger';
 import { AuthInput } from './dto/auth.input';
 import { AuthType } from './dto/auth.type';
 
@@ -24,6 +25,8 @@ export class AuthController {
   }
 
   @Post()
+  @ApiCreatedResponse({ description: 'The record has been successfully created.'})
+  @ApiForbiddenResponse({ description: 'Forbidden.'})
   async login(@Body() authInput: AuthInput): Promise<AuthType> {
     return await this.clientProxy.send('auth-login', authInput).toPromise();
   }
