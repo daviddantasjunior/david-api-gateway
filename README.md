@@ -1,5 +1,14 @@
 SETUP DA APLICAÇÃO
 
+## Tecnologias
+
+`Framework:` NestJS
+`Mensageria:` RabbitMQ
+`Bancos de Dados:`: MongoDB(Mongoose) e Postgres(TypeORM)
+`Container:` Docker e Docker-Compose
+`Docs:` Swagger
+`Test:` Jest
+
 ## Descrição
 
   O projeto foi dividido em 2 serviços: um é o API Gateway, resposável por redirecionar as requisições,
